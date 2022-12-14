@@ -1,46 +1,36 @@
-# Getting Started with Create React App
+# Books explorer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
+This is a sample project using the following technologies:
 
-## Available Scripts
+- React
+- Redux toolkit
+- Jest
+- react-testing-library
+- Material UI
 
-In the project directory, you can run:
+## Architecture
 
-### `npm start`
+This project is architectured using a Redux architure with a clear separation between the shared state and the view. Using Redux for such a tiny project is an overhead, and the reason to use it is just to show my knowledge and experience with this library. React Context API within `useReducer` is a good alternative for small projects like this.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The folder `slice` gather actions, reducers and selectors grouped by feature. In this case we have only one feature called `books`.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+The view is all the component tree that is created from `App.tsx`. View components dispatch actions that are imported from the `slice` features. In this case, a custom hook `useBooks` has been defined to separate all the presentational logic from the data management logic. `useBooks` use the concept of **inversion of control** to provide the functions needed by the presentational components but hidding the internal implementation that make access to the `dispatch` and the Redux actions exported from the `slice`.
 
-### `npm test`
+## Testing
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Tests has been implemented using TDD and BDD. BDD allows that the tests resemble as much as possible to how the software is used avoiding implementation details. Unit tests could be complemented with some E2E tests (i.e. implemented in Cypress).
 
-### `npm run build`
+## Features
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Display a list of books using the `openlibrary` public API.
+- Filter books by title using the Search box.
+- Hide books clicking on the trash icon.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## How to launch the project
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Execute `nmv use` or make sure that you are using the node version defined in `.nvmrc`.
 
-### `npm run eject`
+Then execute:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. `npm install`
+2. `npm start`
