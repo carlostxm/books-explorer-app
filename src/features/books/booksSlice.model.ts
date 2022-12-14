@@ -19,3 +19,8 @@ export interface BookView {
   editionCount: number;
   subjects: string;
 }
+
+export interface BooksState {
+  status: AsyncStatus;
+  value: Book[];
+}

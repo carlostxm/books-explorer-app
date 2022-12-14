@@ -6,6 +6,9 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
+import useBooks from '../hooks/useBooks';
+import debounce from 'lodash.debounce';
+import { useMemo, useState } from 'react';
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -50,6 +53,24 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
+
+  const [query, setQuery] = useState<string>('');
+
+  const { searchBooks } = useBooks();
+
+  function handleSearchInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+    event.preventDefault();
+    const { value } = event.target;
+    setQuery(value);
+  }
+
+  const debounceHandleSearchInputChange = useMemo(() => debounce(handleSearchInputChange, 400), []);
+
+  React.useEffect(() => {
+    searchBooks(query);
+    console.log(query);
+  }, [query, searchBooks]);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -67,7 +88,8 @@ export default function SearchAppBar() {
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Search…"
+              onChange={debounceHandleSearchInputChange}
+              placeholder="Search title…"
               inputProps={{ "aria-label": "search" }}
             />
           </Search>

@@ -1,5 +1,5 @@
 import BooksTable from "./BooksTable";
-import { screen, render, prettyDOM } from "@testing-library/react";
+import { screen, render } from "@testing-library/react";
 import { BookView } from "./booksSlice.model";
 
 const BOOKS: BookView[] = [
@@ -26,7 +26,6 @@ const COLUMN_LABELS = [
   "Authors",
   "Release Year",
   "Edition Count",
-  "Subjects",
 ];
 
 describe("BooksTable", () => {

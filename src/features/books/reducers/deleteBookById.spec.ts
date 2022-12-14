@@ -1,6 +1,5 @@
 import deleteBookById from './deleteBookById';
-import { BooksState } from '../booksSlice';
-import { Book } from '../booksSlice.model';
+import { Book, BooksState } from '../booksSlice.model';
 
 const BOOKS: Book[] = [
     {

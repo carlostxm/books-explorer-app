@@ -1,5 +1,5 @@
 import { PayloadAction } from "@reduxjs/toolkit";
-import { BooksState } from "../booksSlice";
+import { BooksState } from '../booksSlice.model';
 
 function deleteBookById(
   state: BooksState,

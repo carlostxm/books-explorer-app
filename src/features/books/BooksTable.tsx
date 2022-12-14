@@ -19,6 +19,7 @@ interface BooksTableProps {
 }
 
 function BooksTable({ data, isLoading, onDelete }: BooksTableProps) {
+
   const handleDeleteRow = (id: string) => {
     if (onDelete) onDelete(id);
   };
@@ -31,11 +32,10 @@ function BooksTable({ data, isLoading, onDelete }: BooksTableProps) {
         <TableHead>
           <TableRow>
             <TableCell>Title</TableCell>
-            <TableCell align='right'>Authors</TableCell>
-            <TableCell align='right'>Release Year</TableCell>
-            <TableCell align='right'>Edition Count</TableCell>
-            <TableCell align='right'>Subjects</TableCell>
-            <TableCell align='right'></TableCell>
+            <TableCell>Authors</TableCell>
+            <TableCell>Release Year</TableCell>
+            <TableCell>Edition Count</TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -61,11 +61,10 @@ function BooksTable({ data, isLoading, onDelete }: BooksTableProps) {
               <TableCell component='th' scope='row'>
                 {row.title}
               </TableCell>
-              <TableCell align='right'>{row.authors}</TableCell>
-              <TableCell align='right'>{row.releaseYear}</TableCell>
-              <TableCell align='right'>{row.editionCount}</TableCell>
-              <TableCell align='right'>{row.subjects}</TableCell>
-              <TableCell align='right'>
+              <TableCell>{row.authors}</TableCell>
+              <TableCell>{row.releaseYear}</TableCell>
+              <TableCell>{row.editionCount}</TableCell>
+              <TableCell>
                 <IconButton
                   aria-label='upload picture'
                   component='label'
