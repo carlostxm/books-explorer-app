@@ -21,17 +21,12 @@ const BOOKS: BookView[] = [
   },
 ];
 
-const COLUMN_LABELS = [
-  "Title",
-  "Authors",
-  "Release Year",
-  "Edition Count",
-];
+const COLUMN_LABELS = ["Title", "Authors", "Release Year", "Edition Count"];
 
 describe("BooksTable", () => {
   describe("Without data", () => {
     it("should show a loading spinner when isLoading prop is enabled and there is no data", () => {
-      render(<BooksTable isLoading={true} data={[]}/>);
+      render(<BooksTable isLoading={true} data={[]} />);
       const loading = screen.getByTestId("loading-spinner");
       expect(loading).toBeDefined();
     });

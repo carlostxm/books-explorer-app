@@ -3,13 +3,12 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import useBooks from '../hooks/useBooks';
-import { useState } from 'react';
-import Search from './Search';
+import useBooks from "../hooks/useBooks";
+import { useState } from "react";
+import Search from "./Search";
 
 function SearchBar() {
-
-  const [query, setQuery] = useState<string>('');
+  const [query, setQuery] = useState<string>("");
 
   const { searchBooks } = useBooks();
 

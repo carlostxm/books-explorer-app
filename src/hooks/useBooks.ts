@@ -1,12 +1,12 @@
-import { useCallback } from 'react';
-import { useAppSelector, useAppDispatch } from '../store/hooks';
+import { useCallback } from "react";
+import { useAppSelector, useAppDispatch } from "../store/hooks";
 import {
   selectBooks,
   selectStatus,
   deleteBookById,
   fetchBooks,
   filterBooksByTitle,
-} from '../slices/books/booksSlice';
+} from "../slices/books/booksSlice";
 
 function useBooks() {
   const books = useAppSelector(selectBooks);
@@ -32,7 +32,7 @@ function useBooks() {
     dispatch(fetchBooks());
   }, [dispatch]);
 
-  const isLoading = status === 'loading';
+  const isLoading = status === "loading";
 
   return { books, isLoading, deleteBook, searchBooks, fetchBookList };
 }

@@ -1,16 +1,16 @@
-import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { BookView } from '../slices/books/booksSlice.model';
-import { Typography } from '@mui/material';
-import Loading from './Loading';
+import * as React from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { BookView } from "../slices/books/booksSlice.model";
+import { Typography } from "@mui/material";
+import Loading from "./Loading";
 
 interface BooksTableProps {
   data: BookView[];
@@ -19,7 +19,6 @@ interface BooksTableProps {
 }
 
 function BooksTable({ data, isLoading, onDelete }: BooksTableProps) {
-
   const handleDeleteRow = (id: string) => {
     if (onDelete) onDelete(id);
   };
@@ -28,7 +27,7 @@ function BooksTable({ data, isLoading, onDelete }: BooksTableProps) {
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Title</TableCell>
@@ -56,9 +55,9 @@ function BooksTable({ data, isLoading, onDelete }: BooksTableProps) {
           {data.map((row) => (
             <TableRow
               key={row.id}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell component='th' scope='row'>
+              <TableCell component="th" scope="row">
                 {row.title}
               </TableCell>
               <TableCell>{row.authors}</TableCell>
@@ -66,14 +65,14 @@ function BooksTable({ data, isLoading, onDelete }: BooksTableProps) {
               <TableCell>{row.editionCount}</TableCell>
               <TableCell>
                 <IconButton
-                  aria-label='upload picture'
-                  component='label'
+                  aria-label="upload picture"
+                  component="label"
                   onClick={(event) => {
                     event.preventDefault();
                     handleDeleteRow(row.id);
                   }}
                 >
-                  <input hidden accept='image/*' type='file' />
+                  <input hidden accept="image/*" type="file" />
                   <DeleteIcon />
                 </IconButton>
               </TableCell>

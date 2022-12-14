@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
-import useBooks from '../hooks/useBooks';
-import { getTableData } from '../services/getTableData';
+import useBooks from "../hooks/useBooks";
+import { getTableData } from "../services/getTableData";
 import BooksTable from "./BooksTable";
 
 export function Books() {
@@ -14,7 +14,13 @@ export function Books() {
 
   useEffect(() => {
     fetchBookList();
-}, [fetchBookList]);
+  }, [fetchBookList]);
 
-  return <BooksTable data={tableRows} isLoading={isLoading} onDelete={handleDeleteRow} />;
+  return (
+    <BooksTable
+      data={tableRows}
+      isLoading={isLoading}
+      onDelete={handleDeleteRow}
+    />
+  );
 }
