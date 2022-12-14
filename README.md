@@ -26,6 +26,16 @@ Tests has been implemented using TDD and BDD. BDD allows that the tests resemble
 - Filter books by title using the Search box.
 - Hide books clicking on the trash icon.
 
+The rest of features suggested in the technical assessment document can be implemented following this architecture:
+
+- Showcase or edit rows: Create a form component and fill it with the current data. In the case of the edition, create a new action to edit the book fields.
+- Column sort: Material UI table provide support for sorting. It is only needed to enable the configuration as is documented in the MUI documentation https://mui.com/material-ui/react-table/#sorting-amp-selecting
+
+## Improvements
+
+- Load more books using pagination format or load more rows using an infinite scroll pattern where new rows are loaded when the user reach scrolling the end of the page.
+- Some heavy operations as search, filter or sorting could be moved to web workers avoiding the call stack is blocked. This will allow that render operations are executed meanwhile the heavy operations are executed in background.
+
 ## How to launch the project
 
 Execute `nmv use` or make sure that you are using the node version defined in `.nvmrc`.
