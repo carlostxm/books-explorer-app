@@ -3,7 +3,7 @@ import { Book } from "./booksSlice.model";
 
 const apiURL = process.env.REACT_APP_API_URL;
 
-const endpoint = `${apiURL}/subjects/computers.json?limit=500&published_in=1984-2022`;
+const endpoint = `${apiURL}/subjects/computers.json?limit=300&published_in=1984-2022`;
 
 export interface BooksResponse {
   work_count: number;

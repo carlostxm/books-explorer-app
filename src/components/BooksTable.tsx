@@ -8,9 +8,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { BookView } from './booksSlice.model';
+import { BookView } from '../slices/books/booksSlice.model';
 import { Typography } from '@mui/material';
-import Loading from '../../components/Loading';
+import Loading from './Loading';
 
 interface BooksTableProps {
   data: BookView[];

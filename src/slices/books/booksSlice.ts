@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../../app/store';
+import { RootState } from '../../store';
 import deleteBookByIdReducer from './reducers/deleteBookById';
 import filterBooksByTitleReducer from './reducers/filterBooksByTitle';
 import { fetchBooks as fetchBooksFromAPI } from './booksAPI';

@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
-import { useAppSelector, useAppDispatch } from '../app/hooks';
-import { selectBooks, selectStatus, deleteBookById, fetchBooks, filterBooksByTitle } from '../features/books/booksSlice';
+import { useAppSelector, useAppDispatch } from '../store/hooks';
+import { selectBooks, selectStatus, deleteBookById, fetchBooks, filterBooksByTitle } from '../slices/books/booksSlice';
 
 function useBooks() {
     const books = useAppSelector(selectBooks);

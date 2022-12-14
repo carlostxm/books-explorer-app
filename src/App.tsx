@@ -1,15 +1,11 @@
-import React from "react";
-import "./App.css";
-import NavBar from "./components/NavBar";
-import { Books } from "./features/books/Books";
+import SearchBar from "./components/SearchBar";
+import { Books } from "./components/Books";
 
 function App() {
   return (
     <div className="App">
-      <NavBar />
-      <div className="content">
-        <Books />
-      </div>
+      <SearchBar />
+      <Books />
     </div>
   );
 }

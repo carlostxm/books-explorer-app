@@ -1,6 +1,6 @@
 import BooksTable from "./BooksTable";
 import { screen, render } from "@testing-library/react";
-import { BookView } from "./booksSlice.model";
+import { BookView } from "../slices/books/booksSlice.model";
 
 const BOOKS: BookView[] = [
   {

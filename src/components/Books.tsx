@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import useBooks from '../../hooks/useBooks';
-import { getTableData } from "./Books.adapters";
+import useBooks from '../hooks/useBooks';
+import { getTableData } from '../services/getTableData';
 import BooksTable from "./BooksTable";
 
 export function Books() {
