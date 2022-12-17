@@ -1,18 +1,22 @@
-import { useCallback } from "react";
-import { useAppSelector, useAppDispatch } from "../store/hooks";
+import { useCallback, useMemo } from 'react';
+import { useAppSelector } from '../store/hooks';
 import {
   selectBooks,
   selectStatus,
   deleteBookById,
   fetchBooks,
   filterBooksByTitle,
-} from "../slices/books/booksSlice";
+} from '../slices/books/booksSlice';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../store';
+import { getBookMap } from '../services/getTableData';
+import { BookView } from '../slices/books/booksSlice.model';
 
 function useBooks() {
   const books = useAppSelector(selectBooks);
   const status = useAppSelector(selectStatus);
 
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const deleteBook = useCallback(
     (id: string) => {
@@ -32,9 +36,11 @@ function useBooks() {
     dispatch(fetchBooks());
   }, [dispatch]);
 
-  const isLoading = status === "loading";
+  const bookMap = useMemo(() => getBookMap<BookView>(books), [books]);
 
-  return { books, isLoading, deleteBook, searchBooks, fetchBookList };
+  const isLoading = status === 'loading';
+
+  return { books, bookMap, isLoading, deleteBook, searchBooks, fetchBookList };
 }
 
 export default useBooks;
