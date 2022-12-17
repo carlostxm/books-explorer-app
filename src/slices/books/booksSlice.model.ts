@@ -1,6 +1,6 @@
-export type AsyncStatus = "idle" | "loading" | "failed";
+export type AsyncStatus = 'idle' | 'loading' | 'failed';
 
-export type Book = {
+export interface Book {
   id: string;
   title: string;
   authors: string[];
@@ -9,9 +9,11 @@ export type Book = {
   subjects: string[];
   isHidden?: boolean;
   isDeleted?: boolean;
-};
+}
 
-export interface BookView {
+export type BookView = Omit<Book, 'isHidden' | 'isDeleted'>;
+
+export interface BookTableView {
   id: string;
   title: string;
   authors: string;
@@ -19,6 +21,8 @@ export interface BookView {
   editionCount: number;
   subjects: string;
 }
+
+export type BookDetails = Omit<Book, 'isHidden' | 'isDeleted'>;
 
 export interface BooksState {
   status: AsyncStatus;
