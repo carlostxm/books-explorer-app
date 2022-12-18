@@ -2,18 +2,32 @@ import { useEffect, useMemo, useState, useCallback } from 'react';
 import useBooks from '../hooks/useBooks';
 import { getTableData } from '../services/getTableData';
 import { BookView } from '../slices/books/booksSlice.model';
-import BookDetails, { BookDetailsMode } from './BookDetails';
+import BookDetails from './BookDetails';
 import BooksTable from './BooksTable';
+import BooksTableToolbar from './BooksTableToolbar';
 import Modal from './Modal';
 
-interface ModalContext {
+interface ViewAndEditModalContext {
   bookId: string;
-  mode: BookDetailsMode;
+  mode: 'edit' | 'view';
 }
 
+interface CreateModalContext {
+  mode: 'create';
+}
+
+type ModalContext = ViewAndEditModalContext | CreateModalContext;
+
 export function Books() {
-  const { books, bookMap, isLoading, deleteBook, fetchBookList, updateBook } =
-    useBooks();
+  const {
+    books,
+    bookMap,
+    isLoading,
+    deleteBook,
+    fetchBookList,
+    updateBook,
+    createBook,
+  } = useBooks();
   const [modalContext, setModalContext] = useState<ModalContext | null>(null);
 
   const tableRows = useMemo(() => getTableData(books), [books]);
@@ -39,8 +53,23 @@ export function Books() {
     [setModalContext]
   );
 
-  const handleEditSubmit = (book: BookView) => {
-    if (book) updateBook(book);
+  const handleCreate = () => {
+    setModalContext({ mode: 'create' });
+  };
+
+  const handleFormSubmit = (book: BookView) => {
+    if (book) {
+      switch (modalContext?.mode) {
+        case 'edit':
+          updateBook(book);
+          break;
+        case 'create':
+          createBook(book);
+          break;
+        default:
+          break;
+      }
+    }
     setModalContext(null);
   };
 
@@ -49,23 +78,27 @@ export function Books() {
   }, [fetchBookList]);
 
   const selectedBook =
-    modalContext !== null ? bookMap[modalContext.bookId] : null;
+    modalContext?.mode !== 'create' && modalContext?.bookId
+      ? bookMap[modalContext.bookId]
+      : null;
   const isModalOpen = modalContext !== null;
 
   return (
     <>
-      <BooksTable
-        data={tableRows}
-        isLoading={isLoading}
-        onDelete={handleDeleteRow}
-        onView={handleViewRow}
-        onEdit={handleEditRow}
-      />
+      <BooksTableToolbar onCreate={handleCreate}>
+        <BooksTable
+          data={tableRows}
+          isLoading={isLoading}
+          onDelete={handleDeleteRow}
+          onView={handleViewRow}
+          onEdit={handleEditRow}
+        />
+      </BooksTableToolbar>
       <Modal open={isModalOpen} onClose={() => setModalContext(null)}>
         <BookDetails
           book={selectedBook!}
           mode={modalContext?.mode}
-          onSubmit={handleEditSubmit}
+          onSubmit={handleFormSubmit}
         />
       </Modal>
     </>
