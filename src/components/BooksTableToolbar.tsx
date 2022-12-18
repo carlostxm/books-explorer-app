@@ -6,9 +6,11 @@ import Typography from '@mui/material/Typography';
 
 interface BooksTableToolbarProps {
   onCreate: () => void;
+  disableActions: boolean;
 }
 
 function BooksTableToolbar({
+  disableActions,
   onCreate,
   children,
 }: React.PropsWithChildren<BooksTableToolbarProps>) {
@@ -21,7 +23,11 @@ function BooksTableToolbar({
           </Typography>
         }
         action={
-          <Button variant='outlined' onClick={onCreate}>
+          <Button
+            variant='outlined'
+            onClick={onCreate}
+            disabled={disableActions}
+          >
             Create
           </Button>
         }
