@@ -3,6 +3,7 @@ import { RootState } from '../../store';
 import deleteBookByIdReducer from './reducers/deleteBookById';
 import filterBooksByTitleReducer from './reducers/filterBooksByTitle';
 import updateBookReducer from './reducers/updateBook';
+import createBookReducer from './reducers/createBook';
 import { fetchBooks as fetchBooksFromAPI } from './booksAPI';
 import { AsyncStatus, BooksState, BookView } from './booksSlice.model';
 
@@ -23,6 +24,7 @@ export const booksSlice = createSlice({
     deleteBookById: deleteBookByIdReducer,
     filterBooksByTitle: filterBooksByTitleReducer,
     updateBook: updateBookReducer,
+    createBook: createBookReducer,
   },
   extraReducers: (builder) => {
     builder
@@ -39,7 +41,7 @@ export const booksSlice = createSlice({
   },
 });
 
-export const { deleteBookById, filterBooksByTitle, updateBook } =
+export const { deleteBookById, filterBooksByTitle, updateBook, createBook } =
   booksSlice.actions;
 
 export const selectBooks = (state: RootState): BookView[] =>

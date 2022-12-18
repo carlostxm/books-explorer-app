@@ -7,6 +7,7 @@ import {
   fetchBooks,
   filterBooksByTitle,
   updateBook as updateBookAction,
+  createBook as createBookAction,
 } from '../slices/books/booksSlice';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store';
@@ -44,6 +45,13 @@ function useBooks() {
     [dispatch]
   );
 
+  const createBook = useCallback(
+    (book: BookView) => {
+      dispatch(createBookAction(book));
+    },
+    [dispatch]
+  );
+
   const bookMap = useMemo(() => getBookMap<BookView>(books), [books]);
 
   const isLoading = status === 'loading';
@@ -56,6 +64,7 @@ function useBooks() {
     searchBooks,
     fetchBookList,
     updateBook,
+    createBook,
   };
 }
 

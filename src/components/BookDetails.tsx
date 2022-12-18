@@ -6,8 +6,9 @@ import FormLabel from '@mui/material/FormLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Button from '@mui/material/Button';
 import { useFormik } from 'formik';
+import { useRef } from 'react';
 
-export type BookDetailsMode = 'view' | 'edit';
+export type BookDetailsMode = 'view' | 'edit' | 'create';
 
 export interface BookDetailsProps {
   book: BookView;
@@ -15,22 +16,33 @@ export interface BookDetailsProps {
   onSubmit?: (book: BookView) => void;
 }
 
+const CREATE_BOOK_INITIAL_VALUE: BookView = {
+  id: 'Insert ID',
+  title: 'New title',
+  authors: ['New author'],
+  releaseYear: new Date().getFullYear(),
+  editionCount: 0,
+  subjects: ['New subject'],
+};
+
 function BookDetails({ book, onSubmit, mode }: BookDetailsProps) {
+  const initialValue = useRef(book ?? CREATE_BOOK_INITIAL_VALUE);
+
   const { values, handleSubmit, handleChange } = useFormik({
     initialValues: {
-      ...book,
+      ...initialValue.current,
     },
     onSubmit: (values: BookView) => {
       if (onSubmit) onSubmit(values);
     },
   });
 
-  const isEditMode = mode === 'edit';
+  const shouldShowSubmitButton = mode === 'edit' || mode === 'create';
   const couldBeEditableProps: TextFieldProps['InputProps'] = {
-    readOnly: !isEditMode,
+    readOnly: !shouldShowSubmitButton,
   };
 
-  const { authors, subjects } = book;
+  const { authors, subjects } = initialValue.current;
 
   return (
     <form onSubmit={handleSubmit}>
@@ -42,6 +54,7 @@ function BookDetails({ book, onSubmit, mode }: BookDetailsProps) {
           label='Title'
           value={values.title}
           onChange={handleChange}
+          placeholder='Insert title'
         />
         <Box sx={{ display: 'inline-flex', gap: '8px' }}>
           <TextField
@@ -98,7 +111,7 @@ function BookDetails({ book, onSubmit, mode }: BookDetailsProps) {
             })}
           </Stack>
         </FormGroup>
-        {isEditMode && (
+        {shouldShowSubmitButton && (
           <Button color='primary' variant='contained' fullWidth type='submit'>
             Save changes
           </Button>
