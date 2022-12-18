@@ -5,7 +5,7 @@ import { BookView } from '../slices/books/booksSlice.model';
 import FormLabel from '@mui/material/FormLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Button from '@mui/material/Button';
-import { useFormik, Form } from 'formik';
+import { useFormik } from 'formik';
 
 export type BookDetailsMode = 'view' | 'edit';
 
