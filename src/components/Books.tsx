@@ -1,13 +1,20 @@
 import { useEffect, useMemo, useState, useCallback } from 'react';
 import useBooks from '../hooks/useBooks';
 import { getTableData } from '../services/getTableData';
-import BookDetails from './BookDetails';
+import { BookView } from '../slices/books/booksSlice.model';
+import BookDetails, { BookDetailsMode } from './BookDetails';
 import BooksTable from './BooksTable';
 import Modal from './Modal';
 
+interface ModalContext {
+  bookId: string;
+  mode: BookDetailsMode;
+}
+
 export function Books() {
-  const { books, bookMap, isLoading, deleteBook, fetchBookList } = useBooks();
-  const [bookSelectedId, setBookSelectedId] = useState<string | null>(null);
+  const { books, bookMap, isLoading, deleteBook, fetchBookList, updateBook } =
+    useBooks();
+  const [modalContext, setModalContext] = useState<ModalContext | null>(null);
 
   const tableRows = useMemo(() => getTableData(books), [books]);
 
@@ -20,28 +27,46 @@ export function Books() {
 
   const handleViewRow = useCallback(
     (id: string) => {
-      setBookSelectedId(id);
+      setModalContext({ bookId: id, mode: 'view' });
     },
-    [setBookSelectedId]
+    [setModalContext]
   );
+
+  const handleEditRow = useCallback(
+    (id: string) => {
+      setModalContext({ bookId: id, mode: 'edit' });
+    },
+    [setModalContext]
+  );
+
+  const handleEditSubmit = (book: BookView) => {
+    if (book) updateBook(book);
+    setModalContext(null);
+  };
 
   useEffect(() => {
     fetchBookList();
   }, [fetchBookList]);
 
-  const selectedBook = bookSelectedId !== null ? bookMap[bookSelectedId] : null;
-  const isModalOpen = bookSelectedId !== null;
+  const selectedBook =
+    modalContext !== null ? bookMap[modalContext.bookId] : null;
+  const isModalOpen = modalContext !== null;
 
   return (
     <>
       <BooksTable
         data={tableRows}
         isLoading={isLoading}
-        onDeleteClick={handleDeleteRow}
-        onViewClick={handleViewRow}
+        onDelete={handleDeleteRow}
+        onView={handleViewRow}
+        onEdit={handleEditRow}
       />
-      <Modal open={isModalOpen} onClose={() => setBookSelectedId(null)}>
-        <BookDetails book={selectedBook!} />
+      <Modal open={isModalOpen} onClose={() => setModalContext(null)}>
+        <BookDetails
+          book={selectedBook!}
+          mode={modalContext?.mode}
+          onSubmit={handleEditSubmit}
+        />
       </Modal>
     </>
   );

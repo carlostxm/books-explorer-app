@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 import deleteBookByIdReducer from './reducers/deleteBookById';
 import filterBooksByTitleReducer from './reducers/filterBooksByTitle';
+import updateBookReducer from './reducers/updateBook';
 import { fetchBooks as fetchBooksFromAPI } from './booksAPI';
 import { AsyncStatus, BooksState, BookView } from './booksSlice.model';
 
@@ -21,6 +22,7 @@ export const booksSlice = createSlice({
   reducers: {
     deleteBookById: deleteBookByIdReducer,
     filterBooksByTitle: filterBooksByTitleReducer,
+    updateBook: updateBookReducer,
   },
   extraReducers: (builder) => {
     builder
@@ -37,7 +39,8 @@ export const booksSlice = createSlice({
   },
 });
 
-export const { deleteBookById, filterBooksByTitle } = booksSlice.actions;
+export const { deleteBookById, filterBooksByTitle, updateBook } =
+  booksSlice.actions;
 
 export const selectBooks = (state: RootState): BookView[] =>
   Object.values(state.books.value).filter(
