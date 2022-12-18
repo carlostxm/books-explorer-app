@@ -85,7 +85,7 @@ export function Books() {
 
   return (
     <>
-      <BooksTableToolbar onCreate={handleCreate}>
+      <BooksTableToolbar onCreate={handleCreate} disableActions={isLoading}>
         <BooksTable
           data={tableRows}
           isLoading={isLoading}
