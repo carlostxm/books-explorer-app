@@ -6,7 +6,6 @@ import FormLabel from '@mui/material/FormLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Button from '@mui/material/Button';
 import { useFormik } from 'formik';
-import { useRef } from 'react';
 
 export type BookDetailsMode = 'view' | 'edit' | 'create';
 
@@ -26,11 +25,11 @@ const CREATE_BOOK_INITIAL_VALUE: BookView = {
 };
 
 function BookDetails({ book, onSubmit, mode }: BookDetailsProps) {
-  const initialValue = useRef(book ?? CREATE_BOOK_INITIAL_VALUE);
+  const initialValue = book ?? CREATE_BOOK_INITIAL_VALUE;
 
   const { values, handleSubmit, handleChange } = useFormik({
     initialValues: {
-      ...initialValue.current,
+      ...initialValue,
     },
     onSubmit: (values: BookView) => {
       if (onSubmit) onSubmit(values);
@@ -42,7 +41,7 @@ function BookDetails({ book, onSubmit, mode }: BookDetailsProps) {
     readOnly: !shouldShowSubmitButton,
   };
 
-  const { authors, subjects } = initialValue.current;
+  const { authors, subjects } = initialValue;
 
   return (
     <form onSubmit={handleSubmit}>
