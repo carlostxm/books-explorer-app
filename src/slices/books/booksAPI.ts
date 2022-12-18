@@ -1,9 +1,9 @@
-import axios from "axios";
-import { Book } from "./booksSlice.model";
+import axios from 'axios';
+import { Book } from './booksSlice.model';
 
 const apiURL = process.env.REACT_APP_API_URL;
 
-const endpoint = `${apiURL}/subjects/computers.json?limit=300&published_in=1984-2022`;
+const endpoint = `${apiURL}/subjects/computers.json?limit=200&published_in=1984-2022`;
 
 export interface BooksResponse {
   work_count: number;
@@ -25,10 +25,11 @@ export async function fetchBooks(): Promise<Book[]> {
       authors: work.authors?.map((work) => work.name),
       title: work.title,
       releaseYear: work.first_publish_year,
-      subjects: work.subject,
+      subjects:
+        work.subject?.length > 5 ? work.subject.slice(0, 5) : work.subject,
       editionCount: work.edition_count,
     }));
   } catch {
-    throw new Error("Error fetching books");
+    throw new Error('Error fetching books');
   }
 }

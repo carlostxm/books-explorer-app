@@ -6,32 +6,30 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { BookTableView } from '../slices/books/booksSlice.model';
 import { Typography } from '@mui/material';
 import Loading from './Loading';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import BookTableActions from './BookTableActions';
 
 interface BooksTableProps {
   data: BookTableView[];
   isLoading: boolean;
-  onDeleteClick?: (id: string) => void;
-  onViewClick?: (id: string) => void;
+  onDelete?: (id: string) => void;
+  onEdit?: (id: string) => void;
+  onView?: (id: string) => void;
 }
 
 function BooksTable({
   data,
   isLoading,
-  onDeleteClick,
-  onViewClick,
+  onDelete,
+  onView,
+  onEdit,
 }: BooksTableProps) {
-  function handleDeleteRow(id: string) {
-    if (onDeleteClick) onDeleteClick(id);
-  }
-
-  function handleViewRow(id: string) {
-    if (onViewClick) onViewClick(id);
+  function handleAction(id: string, callback?: (id: string) => void) {
+    return function runCallback() {
+      if (callback) callback(id);
+    };
   }
 
   const isEmpty = !data?.length;
@@ -45,7 +43,6 @@ function BooksTable({
             <TableCell>Authors</TableCell>
             <TableCell>Release Year</TableCell>
             <TableCell>Edition Count</TableCell>
-            <TableCell></TableCell>
             <TableCell></TableCell>
           </TableRow>
         </TableHead>
@@ -76,28 +73,23 @@ function BooksTable({
               <TableCell>{row.releaseYear}</TableCell>
               <TableCell>{row.editionCount}</TableCell>
               <TableCell>
-                <IconButton
-                  aria-label='delete row'
-                  component='label'
-                  onClick={(event) => {
-                    event.preventDefault();
-                    handleDeleteRow(row.id);
-                  }}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </TableCell>
-              <TableCell>
-                <IconButton
-                  aria-label='view row'
-                  component='label'
-                  onClick={(event) => {
-                    event.preventDefault();
-                    handleViewRow(row.id);
-                  }}
-                >
-                  <VisibilityIcon />
-                </IconButton>
+                <BookTableActions
+                  actions={[
+                    {
+                      label: 'View',
+                      onClick: handleAction(row.id, onView),
+                    },
+                    {
+                      label: 'Edit',
+                      onClick: handleAction(row.id, onEdit),
+                    },
+                    {
+                      label: 'Delete',
+                      color: 'red',
+                      onClick: handleAction(row.id, onDelete),
+                    },
+                  ]}
+                />
               </TableCell>
             </TableRow>
           ))}

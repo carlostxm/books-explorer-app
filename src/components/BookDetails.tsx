@@ -4,82 +4,105 @@ import TextField, { TextFieldProps } from '@mui/material/TextField';
 import { BookView } from '../slices/books/booksSlice.model';
 import FormLabel from '@mui/material/FormLabel';
 import FormGroup from '@mui/material/FormGroup';
-import FormControl from '@mui/material/FormControl';
+import Button from '@mui/material/Button';
+import { useFormik } from 'formik';
 
-interface BookDetailsProps {
+export type BookDetailsMode = 'view' | 'edit';
+
+export interface BookDetailsProps {
   book: BookView;
-  mode?: 'view' | 'edit';
+  mode?: BookDetailsMode;
   onSubmit?: (book: BookView) => void;
 }
 
 function BookDetails({ book, onSubmit, mode }: BookDetailsProps) {
-  function handleSubmit() {}
+  const { values, handleSubmit, handleChange } = useFormik({
+    initialValues: {
+      ...book,
+    },
+    onSubmit: (values: BookView) => {
+      if (onSubmit) onSubmit(values);
+    },
+  });
 
-  const { authors, title, editionCount, releaseYear, subjects } = book;
-  const isEditionDisabled = mode !== 'edit';
-  const inputProps: TextFieldProps['InputProps'] = {
-    readOnly: isEditionDisabled,
+  const isEditMode = mode === 'edit';
+  const couldBeEditableProps: TextFieldProps['InputProps'] = {
+    readOnly: !isEditMode,
   };
+
+  const { authors, subjects } = book;
 
   return (
     <form onSubmit={handleSubmit}>
       <Stack spacing={2}>
         <TextField
-          InputProps={inputProps}
-          id='detailed-book-title'
+          InputProps={couldBeEditableProps}
+          id='title'
+          name='title'
           label='Title'
-          defaultValue={title}
+          value={values.title}
+          onChange={handleChange}
         />
         <Box sx={{ display: 'inline-flex', gap: '8px' }}>
           <TextField
-            InputProps={inputProps}
-            id='detailed-book-year'
+            InputProps={couldBeEditableProps}
+            id='releaseYear'
+            name='releaseYear'
             label='Release Year'
-            defaultValue={releaseYear}
+            type='number'
+            value={values.releaseYear}
+            onChange={handleChange}
           />
           <TextField
-            InputProps={inputProps}
-            id='detailed-book-edition-count'
+            InputProps={couldBeEditableProps}
+            id='editionCount'
+            name='editionCount'
             label='# Editions'
-            defaultValue={editionCount}
+            type='number'
+            value={values.editionCount}
+            onChange={handleChange}
           />
         </Box>
-        <FormControl>
-          <FormLabel component='legend'>Authors</FormLabel>
-          <FormGroup>
-            <Stack spacing={2}>
-              {authors.map((author, index) => {
-                const key = `detailed-book-author-${index}`;
-                return (
-                  <TextField
-                    key={key}
-                    id={key}
-                    InputProps={inputProps}
-                    defaultValue={author}
-                  />
-                );
-              })}
-            </Stack>
-          </FormGroup>
-        </FormControl>
-        <FormControl>
-          <FormLabel component='legend'>Subjects</FormLabel>
-          <FormGroup>
-            <Stack spacing={2}>
-              {subjects.map((subject, index) => {
-                const key = `detailed-book-author-${index}`;
-                return (
-                  <TextField
-                    key={key}
-                    id={key}
-                    InputProps={inputProps}
-                    defaultValue={subject}
-                  />
-                );
-              })}
-            </Stack>
-          </FormGroup>
-        </FormControl>
+        <FormLabel component='legend'>Authors</FormLabel>
+        <FormGroup>
+          <Stack spacing={2}>
+            {authors.map((author, index) => {
+              return (
+                <TextField
+                  key={`detailed-book-author-${index}`}
+                  id={`authors[${index}]`}
+                  name={`authors[${index}]`}
+                  InputProps={couldBeEditableProps}
+                  value={values.authors[index]}
+                  onChange={handleChange}
+                />
+              );
+            })}
+          </Stack>
+        </FormGroup>
+        <FormLabel component='legend'>Subjects</FormLabel>
+        <FormGroup>
+          <Stack spacing={2}>
+            {subjects.map((subject, index) => {
+              const key = `detailed-book-author-${index}`;
+              return (
+                <TextField
+                  key={key}
+                  id={`subjects[${index}]`}
+                  name={`subjects[${index}]`}
+                  InputProps={couldBeEditableProps}
+                  value={values.subjects[index]}
+                  onChange={handleChange}
+                />
+              );
+            })}
+          </Stack>
+        </FormGroup>
+        {isEditMode && (
+          <Button color='primary' variant='contained' fullWidth type='submit'>
+            Save changes
+          </Button>
+        )}
       </Stack>
     </form>
   );

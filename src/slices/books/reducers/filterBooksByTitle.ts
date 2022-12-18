@@ -1,5 +1,5 @@
-import { PayloadAction } from "@reduxjs/toolkit";
-import { Book, BooksState } from "../booksSlice.model";
+import { PayloadAction } from '@reduxjs/toolkit';
+import { Book, BooksState } from '../booksSlice.model';
 
 function filterBooks(books: Book[], text: string): Book[] {
   if (!books?.length) {
@@ -13,7 +13,10 @@ function filterBooks(books: Book[], text: string): Book[] {
   }));
 }
 
-function filterBooksByTitle(state: BooksState, action: PayloadAction<string>) {
+function filterBooksByTitle(
+  state: BooksState,
+  action: PayloadAction<string>
+): BooksState {
   const { payload: searchInput } = action;
   const { value: books } = state;
 
