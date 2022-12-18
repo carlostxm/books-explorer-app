@@ -22,6 +22,8 @@ Tests has been implemented using TDD and BDD. BDD allows that the tests resemble
 
 ## Features
 
+- Show case book data.
+- Edit and create books.
 - Display a list of books using the `openlibrary` public API.
 - Filter books by title using the Search box.
 - Hide books clicking on the trash icon.
@@ -35,6 +37,9 @@ The rest of features suggested in the technical assessment document can be imple
 
 - Load more books using pagination format or load more rows using an infinite scroll pattern where new rows are loaded when the user reach scrolling the end of the page.
 - Some heavy operations as search, filter or sorting could be moved to web workers avoiding the call stack is blocked. This will allow that render operations are executed meanwhile the heavy operations are executed in background.
+- Add validation and required fields to `BookDetails` form.
+- When a new book is being created, allow to add multiple authors and multiple subjects.
+- Optimize performance avoiding the `BooksTable` is re-rendered when the `Books` component change.
 
 ## How to launch the project
 
